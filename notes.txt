@@ -1,0 +1,5 @@
+# scan data in
+# look at range of data from -270 degrees to 90 degrees
+# if distance < threshold, then steer the opposite direction
+
+# need to test if rplidar will see grass, or anything thats below car
