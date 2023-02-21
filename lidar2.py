@@ -38,6 +38,7 @@ max_distance = 0
 scan_data1 = [];
 #pylint: disable=redefined-outer-name,global-statement
 def process_data(data):
+    print(data[355:360], data[1:5])
     global max_distance
     scan_data1.append(data);
     lcd.fill((0,0,0))

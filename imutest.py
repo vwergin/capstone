@@ -27,6 +27,6 @@ for i in range(length):
     yarray_a.append(f'{mpu.acceleration[1]:.2f}')
     zarray_a.append(f'{mpu.acceleration[2]:.2f}')
 
-datafile = open("imudata2.txt", 'w')
+datafile = open("imudata.txt", 'w')
 for i in range(length):
     datafile.write(f'{xarray[i]} \t {yarray[i]} \t {zarray[i]} \t {xarray_a[i]} \t {yarray_a[i]} \t {zarray_a[i]} \n')
