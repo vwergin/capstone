@@ -28,22 +28,22 @@ pca.frequency = 100
 #    print('Start Up Complete')
 
 def Motor_Speed(pca, percent, channel = channel_num):
-    print(percent)
+    print("motor speed is .156")
     pca.channels[channel].duty_cycle = math.floor(percent*65535)
 
 #Motor_StartUp(pca)
 
 #print('')
 #print('Changing Speeds:')
-test = True
-while test:
-    print("input a value of .15-.18")
-    x = float(input())
-    Motor_Speed(pca, x, channel_num)
-    time.sleep(2)
+#test = True
+#while test:
+#    Motor_Speed(pca, .1, channel_num)
 #time.sleep(2)
-#Motor_Speed(pca, .16, channel_num)
+Motor_Speed(pca, .17, channel_num)
+time.sleep(3)
 #pca.channels[11].duty_cycle = math.floor(.17*65535)
-#time.sleep(2)
+Motor_Speed(pca, .16, channel_num)
+time.sleep(3)
 #pca.channels[11].duty_cycle = math.floor(.15*65535)
-#Motor_Speed(pca, .15, channel_num)
+Motor_Speed(pca, .15, channel_num)
+time.sleep(3)
