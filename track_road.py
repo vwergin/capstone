@@ -18,8 +18,8 @@ servo7 = servo.Servo(pca.channels[channel_num])
 
 def tracking():
     first = time.time()
-    camera.capture("testing1.jpg")
-    img = cv2.imread("testing1.jpg")
+    camera.capture("testing2.jpg")
+    img = cv2.imread("testing2.jpg")
     hsv_img = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
     mask_img = cv2.inRange(hsv_img, (90, 10, 10), (120, 255, 255))
 
