@@ -14,9 +14,9 @@ pca.frequency = 100
 channel_num = 14
 servo7 = servo.Servo(pca.channels[channel_num])
 
-img = cv2.imread("monarch.jpg")
+img = cv2.imread("testing1.jpg")
 hsv_img = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
-mask_img = cv2.inRange(hsv_img, (27, 150, 150), (33, 255, 255))
+mask_img = cv2.inRange(hsv_img, (90, 10, 10), (120, 255, 255))
 
 bottom = img.shape[0]
 middle= int(img.shape[1]/2)
