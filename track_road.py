@@ -42,4 +42,4 @@ while test:
     servo7.angle = 90
     test = False 
 
-cv2.imwrite('monarch_filtered.jpg', monarch_filtered)
+cv2.imwrite('monarch_filtered1.jpg', monarch_filtered)
