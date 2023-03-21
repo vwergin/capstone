@@ -52,6 +52,6 @@ def tracking():
     last = time.time()
     print("time", last-first)
 #cv2.imwrite('monarch_filtered1.jpg', monarch_filtered)
-for i in range(2):
+for i in range(5):
     tracking()
     time.sleep(1)
