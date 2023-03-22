@@ -1,8 +1,8 @@
 import cv2
 import math
-h = 1023
+h = 530
 w = 0
-img = cv2.imread("testing1.jpg")
+img = cv2.imread("monarch.jpg")
 print(img.shape)
 img_hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
 #print(f' H: {img_hsv[h, w, 1]} \t S: {img_hsv[h,w,2]} \t V: {img_hsv[h,w,3]} \n')
