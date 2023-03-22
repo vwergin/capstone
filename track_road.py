@@ -32,20 +32,21 @@ def tracking():
 
     monarch_filtered = cv2.circle(img, (cX, cY),5,(0,0,255), 2)
     angle = math.atan((cX-middle)/(cY-bottom))
-    print(angle)
+    print("Angle:", angle)
     degrees = angle*180/3.14259
-    print(degrees)
+    print("Degrees:", degrees)
 
-    constant = 2
+    constant = 1
     test = True
     while test:
         angle_desired = 90 + degrees*constant
+        print("angle desired:", angle_desired)
         if angle_desired < 0:
             servo7.angle = 0
         if angle_desired > 180:
             servo7.angle = 180
         else:
-            servo7.angle = 90 + degrees*constant
+            servo7.angle = angle_desired
         time.sleep(1)
         servo7.angle = 90
         test = False 
