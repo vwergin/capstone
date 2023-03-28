@@ -42,7 +42,7 @@ channel_num = 14
 servo7 = servo.Servo(pca.channels[channel_num])
 
 # We sleep in the loops to give the servo time to move into position.
-for i in range(89,140):
+for i in range(89,90):
     servo7.angle = i
     time.sleep(0.03)
     print(i)
