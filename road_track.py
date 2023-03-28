@@ -1,3 +1,4 @@
+
 import cv2
 import math
 import time
@@ -26,6 +27,7 @@ def Motor_Speed(pca, percent, channel = channel_motor):
 
 count = 1
 def tracking():
+    global count
     camera.capture("testing7.jpg")
     img = cv2.imread("testing7.jpg")
     hsv_img = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
@@ -37,15 +39,14 @@ def tracking():
     M = cv2.moments(mask_img)
     if M["m00"] == 0:
         M["m00"] = 1
-    if count ==1:
-        cX = 512
-        cY = 640
-    else:
-        cX = int(M["m10"]/M["m00"])
-        cY = int(M["m01"]/M["m00"])
+    cX = int(M["m10"]/M["m00"])
+    cY = int(M["m01"]/M["m00"])
 
     monarch_filtered = cv2.circle(img, (cX, cY),5,(0,0,255), 2)
-    angle = math.atan((cX-middle)/(cY-bottom))
+    if count ==1:
+        angle = 0
+    else:
+        angle = math.atan((cX-middle)/(cY-bottom))
 #    print("Angle:", angle)
     degrees = angle*180/3.141592
 #    print("Degrees:", degrees)
@@ -56,13 +57,10 @@ def tracking():
         angle_desired = 90 + degrees*constant
         print("angle desired:", angle_desired)
         if angle_desired < 70:
-            print("first")
             servo7.angle = 70
         elif angle_desired > 110:
-            print("second")
             servo7.angle = 110
         else:
-            print("third")
             servo7.angle = angle_desired
         time.sleep(1)
         servo7.angle = 90
@@ -79,6 +77,6 @@ for i in range(3):
 #    time.sleep(.25)
     last = time.time()
     Motor_Speed(pca, .1525, channel_motor)
-    print("time:", last-first)
+#    print("time:", last-first)
     time.sleep(.1)
 Motor_Speed(pca, .15, channel_motor)
