@@ -24,6 +24,7 @@ servo7.angle = 90
 def Motor_Speed(pca, percent, channel = channel_motor):
     pca.channels[channel].duty_cycle = math.floor(percent*65535)
 
+count = 1
 def tracking():
     camera.capture("testing7.jpg")
     img = cv2.imread("testing7.jpg")
@@ -36,15 +37,19 @@ def tracking():
     M = cv2.moments(mask_img)
     if M["m00"] == 0:
         M["m00"] = 1
-    cX = int(M["m10"]/M["m00"])
-    cY = int(M["m01"]/M["m00"])
+    if count ==1:
+        cX = 512
+        cY = 640
+    else:
+        cX = int(M["m10"]/M["m00"])
+        cY = int(M["m01"]/M["m00"])
 
     monarch_filtered = cv2.circle(img, (cX, cY),5,(0,0,255), 2)
     angle = math.atan((cX-middle)/(cY-bottom))
 #    print("Angle:", angle)
     degrees = angle*180/3.141592
 #    print("Degrees:", degrees)
-
+    count = count + 1
     constant = 1
     test = True
     while test:
