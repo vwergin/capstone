@@ -12,21 +12,6 @@ i2c = busio.I2C(SCL, SDA)
 pca = PCA9685(i2c)
 pca.frequency = 100
 
-
-#def Motor_StartUp(pca):
-#    print('Starting Motor Start Up Sequence')
-#    pca.channels[channel_num].duty_cycle = math.floor(.15*65535)
-#    time.sleep(2)
-#    pca.channels[channel_num].duty_cycle = math.floor(.2*65535)
-#    time.sleep(1)
-#    pca.channels[channel_num].duty_cycle = math.floor(.15*65535)
-#    time.sleep(1)
-#    pca.channels[channel_num].duty_cycle = math.floor(.1*65535)
-#    time.sleep(1)
-#    pca.channels[channel_num].duty_cycle = math.floor(.15*65535)
-#    time.sleep(1)
-#    print('Start Up Complete')
-
 def Motor_Speed(pca, percent, channel = channel_num):
     print(percent)
     pca.channels[channel].duty_cycle = math.floor(percent*65535)
@@ -40,7 +25,7 @@ while test:
     print("input a value of .15-.18")
     x = float(input())
     Motor_Speed(pca, x, channel_num)
-    time.sleep(2)
+    time.sleep(.5)
 #time.sleep(2)
 #Motor_Speed(pca, .16, channel_num)
 #pca.channels[11].duty_cycle = math.floor(.17*65535)
