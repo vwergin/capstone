@@ -31,7 +31,7 @@ def tracking():
     camera.capture("testing7.jpg")
     img = cv2.imread("testing7.jpg")
     hsv_img = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
-    mask_img = cv2.inRange(hsv_img, (90, 10, 10), (120, 255, 255))
+    mask_img = cv2.inRange(hsv_img, (150, 10, 10), (200, 255, 255))
 
     bottom = img.shape[0]
     middle= int(img.shape[1]/2)
@@ -51,10 +51,10 @@ def tracking():
     degrees = angle*180/3.141592
 #    print("Degrees:", degrees)
     count = count + 1
-    constant = 1
+    constant = .5
     test = True
     while test:
-        angle_desired = 90 + degrees*constant
+        angle_desired = 90 - degrees*constant
         print("angle desired:", angle_desired)
         if angle_desired < 70:
             servo7.angle = 70
@@ -66,17 +66,18 @@ def tracking():
         servo7.angle = 90
         test = False
 #cv2.imwrite('monarch_filtered1.jpg', monarch_filtered)
-Motor_Speed(pca, .1525, channel_motor)
-time.sleep(.1)
+Motor_Speed(pca, .16, channel_motor)
+#time.sleep(.1)
 #Motor_Speed(pca, .15, channel_motor)
 
-for i in range(3):
+for i in range(4):
     first = time.time()
-    Motor_Speed(pca, .15, channel_motor)
+#    Motor_Speed(pca, .15, channel_motor)
+#    time.sleep(1)
     tracking()
 #    time.sleep(.25)
     last = time.time()
-    Motor_Speed(pca, .1525, channel_motor)
+#    Motor_Speed(pca, .1525, channel_motor)
 #    print("time:", last-first)
     time.sleep(.1)
 Motor_Speed(pca, .15, channel_motor)

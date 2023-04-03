@@ -22,18 +22,19 @@ servo7 = servo.Servo(pca.channels[channel_num])
 PORT_NAME = '/dev/ttyUSB0'
 lidar = RPLidar(None, PORT_NAME)
 
-print( "Hello Dumbass")
-
 def dataprocess(data):
-#    print(data)
+    print(data)
  #   time.sleep(1)
 #    time.sleep(3)
-    firstpoints =[data[352], data[353], data[354],  data[355], data[356], data[357], data[358], data[359],data[0], data[1], data[2], data[3], data[4], data[5]]
+    firstpoints =[data]
     for i in firstpoints:
         print(i)
 
-        if i < 795:
-            servo7.angle = 60
+        if ( data[i] and data[i + 180]) > 0.0:
+            servo7.angle = 120
+        else:
+            serv07.angle = 95
+
 #        if i > 795:
 #            servo7.angle= 90
 
