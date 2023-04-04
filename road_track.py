@@ -20,7 +20,7 @@ pca = PCA9685(i2c)
 pca.frequency = 100
 channel_num = 14
 servo7 = servo.Servo(pca.channels[channel_num])
-servo7.angle = 90
+servo7.angle = 94
 
 def Motor_Speed(pca, percent, channel = channel_motor):
     pca.channels[channel].duty_cycle = math.floor(percent*65535)
@@ -56,21 +56,24 @@ def tracking():
     while test:
         angle_desired = 90 - degrees*constant
         print("angle desired:", angle_desired)
-        if angle_desired < 70:
-            servo7.angle = 70
-        elif angle_desired > 110:
-            servo7.angle = 110
+        if angle_desired < 84:
+#            print("first")
+            servo7.angle = 84
+        elif angle_desired > 104:
+#            print("second")
+            servo7.angle = 104
         else:
+ #           print("third")
             servo7.angle = angle_desired
-        time.sleep(1)
-        servo7.angle = 90
+        time.sleep(.25)
+        servo7.angle = 94
         test = False
 #cv2.imwrite('monarch_filtered1.jpg', monarch_filtered)
 Motor_Speed(pca, .16, channel_motor)
 #time.sleep(.1)
 #Motor_Speed(pca, .15, channel_motor)
 
-for i in range(4):
+for i in range(10):
     first = time.time()
 #    Motor_Speed(pca, .15, channel_motor)
 #    time.sleep(1)
