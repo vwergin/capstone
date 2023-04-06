@@ -30,8 +30,8 @@ pca = PCA9685(i2c)
 pca.frequency = 100
 
 ## setup for imu
-i2c = board.I2C()  # uses board.SCL and board.SDA
-mpu = adafruit_mpu6050.MPU6050(i2c)
+i2c_2 = board.I2C()  # uses board.SCL and board.SDA
+mpu = adafruit_mpu6050.MPU6050(i2c_2)
 
 ## setup for steering
 channel_num_servo = 14
@@ -41,7 +41,7 @@ servo7 = servo.Servo(pca.channels[channel_num_servo])
 IO.setwarnings(False)
 IO.setmode(IO.BCM)
 GPIO_num_encoder = 16
-IO.setup(GPIO_num,IO.IN,IO.PUD_UP)
+IO.setup(GPIO_num_encoder,IO.IN,IO.PUD_UP)
 
 
 
@@ -74,6 +74,7 @@ times = []
 ## begin running motor
 # start with low motor speed
 current_motor_speed = 0.15
+time.sleep(1)
 
 start_time = time.time()
 times.append(start_time)
@@ -82,7 +83,7 @@ cur_time = start_time
 
 test = True
 test_encoder = True
-time_int = 3 #seconds
+time_int = 3 #seconds (how often we take a data point)
 
 while test:
     Motor_Speed(pca, current_motor_speed, channel_num_motor)
