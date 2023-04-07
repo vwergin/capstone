@@ -23,10 +23,11 @@ servo7.angle = 90
 
 def Motor_Speed(pca, percent, channel = channel_motor):
     pca.channels[channel].duty_cycle = math.floor(percent*65535)
-
+first = 1
 def tracking():
-    #camera.capture("testing7.jpg")
-    img = cv2.imread("outsidepic.jpg")
+    global first
+    camera.capture("testing7.jpg")
+    img = cv2.imread("testing7.jpg")
     hsv_img = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
     mask_img = cv2.inRange(hsv_img, (50, 10, 10), (70, 255, 255))
 
@@ -51,7 +52,7 @@ def tracking():
             if 10 <= hsv_img[612, i, 1] <= 255:
                 if 10 <= hsv_img[612, i, 2] <= 255:
                     counter = counter + 1
-    print("count", counter)
+#    print("count", counter)
 
 # this is vertical line
     vert = []
@@ -63,37 +64,41 @@ def tracking():
                     vert.append("1")
         else:
             vert.append("0")
+#    print(vert)
     vert.reverse()
-    print(vert.index("1"))
+    print("last index", vert.index("1"))
     digit = vert.index("1")
+
 
 # middle is 83 ish, if index is less than 80, too close, turn right, 
 # if greater than 80, too far, turn left
-
-    if digit < 75:
-        servo7.angle = 96
-        time.sleep(.25)
-        servo7.angle = 94
-    elif digit > 91:
-        servo7.angle = 92
-        time.sleep(.25)
+    if first == 1:
         servo7.angle = 94
     else:
-        servo7.angle = 94
-
+        if digit < 75:
+            servo7.angle = 100
+            time.sleep(.25)
+            servo7.angle = 94
+        elif digit > 91:
+            servo7.angle = 92
+            time.sleep(.25)
+            servo7.angle = 94
+        else:
+            servo7.angle = 94
+    first = first + 1
+    print(first)
 #    monarch_filtered = cv2.circle(img, (cX, cY),5,(0,0,255), 2)
 #    cv2.imwrite('grass_filtered2.png', monarch_filtered)
     print("middle", cX, cY)
-    constant = 1
 
 #Motor_Speed(pca, .16, channel_motor)
 #time.sleep(.1)
-tracking()
-#for i in range(2):
+#tracking()
+for i in range(4):
 #    first = time.time()
 #    Motor_Speed(pca, .15, channel_motor)
-#    tracking()
-#    time.sleep(.25)
+    tracking()
+    time.sleep(1)
 #    last = time.time()
 #    Motor_Speed(pca, .1525, channel_motor)
 #    print("time:", last-first)
