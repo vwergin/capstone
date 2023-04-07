@@ -28,7 +28,7 @@ def tracking():
     #camera.capture("testing7.jpg")
     img = cv2.imread("outsidepic.jpg")
     hsv_img = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
-    mask_img = cv2.inRange(hsv_img, (40, 50, 50), (80, 100, 100))
+    mask_img = cv2.inRange(hsv_img, (50, 10, 10), (70, 255, 255))
 
     bottom = img.shape[0]
     middle= int(img.shape[1]/2)
@@ -39,34 +39,55 @@ def tracking():
     cX = int(M["m10"]/M["m00"])
     cY = int(M["m01"]/M["m00"])
 
-    monarch_filtered = cv2.circle(img, (cX, cY),5,(0,0,255), 2)
-    cv2.imwrite('grass_filtered2.png', monarch_filtered)
-#    angle = math.atan((cX-middle)/(cY-bottom))
-#    print("Angle:", angle)
-#    degrees = angle*180/3.141592
-#    print("Degrees:", degrees)
+# do 1024 - 665 = 360
+# middle is 609
+# good distance is 665
+# this for loop is for one horizontal line
+    counter = 0
+    for i in range(600, 680):
+#        counter = 0
+#        for j in range(620, 660):
+        if 50 <=  hsv_img[612,i, 0] <= 70:
+            if 10 <= hsv_img[612, i, 1] <= 255:
+                if 10 <= hsv_img[612, i, 2] <= 255:
+                    counter = counter + 1
+    print("count", counter)
+
+# this is vertical line
+    vert = []
+    counter2 = 0
+    for i in range(610, 750):
+        if 50 <= hsv_img[i, 620, 0] <= 70:
+            if 10 <= hsv_img[i, 620, 1] <= 255:
+                if 10 <= hsv_img[i, 620, 2] <= 255:
+                    vert.append("1")
+        else:
+            vert.append("0")
+    vert.reverse()
+    print(vert.index("1"))
+    digit = vert.index("1")
+
+# middle is 83 ish, if index is less than 80, too close, turn right, 
+# if greater than 80, too far, turn left
+
+    if digit < 75:
+        servo7.angle = 96
+        time.sleep(.25)
+        servo7.angle = 94
+    elif digit > 91:
+        servo7.angle = 92
+        time.sleep(.25)
+        servo7.angle = 94
+    else:
+        servo7.angle = 94
+
+#    monarch_filtered = cv2.circle(img, (cX, cY),5,(0,0,255), 2)
+#    cv2.imwrite('grass_filtered2.png', monarch_filtered)
     print("middle", cX, cY)
     constant = 1
-    test = False
-    while test:
-        angle_desired = 94 - degrees*constant
-        print("angle desired:", angle_desired)
-        if angle_desired < 84:
-            print("first")
-            servo7.angle = 84
-        elif angle_desired > 104:
-            print("second")
-            servo7.angle = 104
-        else:
-            print("third")
-            servo7.angle = angle_desired
-        time.sleep(1)
-        servo7.angle = 94
-        test = False
-#cv2.imwrite('monarch_filtered1.jpg', monarch_filtered)
+
 #Motor_Speed(pca, .16, channel_motor)
 #time.sleep(.1)
-#Motor_Speed(pca, .15, channel_motor)
 tracking()
 #for i in range(2):
 #    first = time.time()
@@ -77,4 +98,5 @@ tracking()
 #    Motor_Speed(pca, .1525, channel_motor)
 #    print("time:", last-first)
 #    time.sleep(.1)
+
 #Motor_Speed(pca, .15, channel_motor)
