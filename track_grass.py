@@ -19,7 +19,7 @@ pca = PCA9685(i2c)
 pca.frequency = 100
 channel_num = 14
 servo7 = servo.Servo(pca.channels[channel_num])
-servo7.angle = 90
+servo7.angle = 94
 
 def Motor_Speed(pca, percent, channel = channel_motor):
     pca.channels[channel].duty_cycle = math.floor(percent*65535)
@@ -69,7 +69,8 @@ def tracking():
     print("last index", vert.index("1"))
     digit = vert.index("1")
 
-
+    dist = 1024-cY
+    print("dist", dist)
 # middle is 83 ish, if index is less than 80, too close, turn right, 
 # if greater than 80, too far, turn left
     if first == 1:
