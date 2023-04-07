@@ -28,7 +28,7 @@ def tracking():
     #camera.capture("testing7.jpg")
     img = cv2.imread("outsidepic.jpg")
     hsv_img = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
-    mask_img = cv2.inRange(hsv_img, (40, 10, 10), (80, 255, 255))
+    mask_img = cv2.inRange(hsv_img, (40, 50, 50), (80, 100, 100))
 
     bottom = img.shape[0]
     middle= int(img.shape[1]/2)
@@ -40,7 +40,7 @@ def tracking():
     cY = int(M["m01"]/M["m00"])
 
     monarch_filtered = cv2.circle(img, (cX, cY),5,(0,0,255), 2)
-    cv2.imwrite('grass_filtered.png', monarch_filtered)
+    cv2.imwrite('grass_filtered2.png', monarch_filtered)
 #    angle = math.atan((cX-middle)/(cY-bottom))
 #    print("Angle:", angle)
 #    degrees = angle*180/3.141592
