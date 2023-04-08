@@ -64,7 +64,7 @@ def tracking():
                     vert.append("1")
         else:
             vert.append("0")
-#    print(vert)
+    print(vert)
     vert.reverse()
     print("last index", vert.index("1"))
     digit = vert.index("1")
@@ -76,11 +76,11 @@ def tracking():
     if first == 1:
         servo7.angle = 94
     else:
-        if digit < 75:
+        if dist < 750:
             servo7.angle = 100
             time.sleep(.25)
             servo7.angle = 94
-        elif digit > 91:
+        elif dist > 800:
             servo7.angle = 92
             time.sleep(.25)
             servo7.angle = 94
