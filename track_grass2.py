@@ -50,31 +50,7 @@ def tracking():
 # middle is 609
 # good distance is 665
 # this for loop is for one horizontal line
-    counter = 0
-    for i in range(600, 900):
-#        counter = 0
-#        for j in range(620, 660):
-        if 50 <=  hsv_img[688,i, 0] <= 70:
-            if 10 <= hsv_img[688, i, 1] <= 255:
-                if 10 <= hsv_img[688, i, 2] <= 255:
-                    counter = counter + 1
-#    print("count", counter)
-
 # this is vertical line
-    vert = []
-    counter2 = 0
-    for i in range(610, 900):
-        if 50 <= hsv_img[i, 688, 0] <= 70:
-            if 10 <= hsv_img[i, 688, 1] <= 255:
-                if 10 <= hsv_img[i, 688, 2] <= 255:
-                    vert.append("1")
-        else:
-            vert.append("0")
-#    print(vert)
-    vert.reverse()
-    print("last index", vert.index("1"))
-    digit = vert.index("1")
-
     dist = 1024-cY
     print("dist", dist)
 # middle is 83 ish, if index is less than 80, too close, turn right, 
@@ -95,7 +71,7 @@ def tracking():
     first = first + 1
 #    print(first)
     monarch_filtered = cv2.circle(thresh, (cX, cY),5,(0,0,255), 2)
-    cv2.imwrite('grass_filtered6.png', monarch_filtered)
+    cv2.imwrite('grass_filtered7.png', monarch_filtered)
     print("middle", cX, cY)
 
 #Motor_Speed(pca, .16, channel_motor)
