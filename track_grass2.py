@@ -30,13 +30,18 @@ def tracking():
     img = cv2.imread("outsidepic2.jpg")
     hsv_img = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
     print(hsv_img.shape)
-    mask_img = cv2.inRange(hsv_img, (50, 10, 10), (70, 255, 255))
+    hsv_img2 = hsv_img[607:1080, 0:1920]
+    print(hsv_img2.shape)
+    mask_img = cv2.inRange(hsv_img2, (50, 10, 10), (70, 255, 255))
+    mask_blur = cv2.blur(mask_img, (5,5))
+    th, thresh = cv2.threshold(mask_blur, 200, 255, cv2.THRESH_BINARY)
 
     bottom = img.shape[0]
     middle= int(img.shape[1]/2)
 
-    M = cv2.moments(mask_img)
+    M = cv2.moments(thresh)
     if M["m00"] == 0:
+        print("no center detected")
         M["m00"] = 1
     cX = int(M["m10"]/M["m00"])
     cY = int(M["m01"]/M["m00"])
@@ -65,7 +70,7 @@ def tracking():
                     vert.append("1")
         else:
             vert.append("0")
-    print(vert)
+#    print(vert)
     vert.reverse()
     print("last index", vert.index("1"))
     digit = vert.index("1")
@@ -89,8 +94,8 @@ def tracking():
 #            servo7.angle = 94
     first = first + 1
 #    print(first)
-    monarch_filtered = cv2.circle(img, (cX, cY),5,(0,0,255), 2)
-    cv2.imwrite('grass_filtered3.png', monarch_filtered)
+#    monarch_filtered = cv2.circle(img, (cX, cY),5,(0,0,255), 2)
+#    cv2.imwrite('grass_filtered3.png', monarch_filtered)
     print("middle", cX, cY)
 
 #Motor_Speed(pca, .16, channel_motor)
