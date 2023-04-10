@@ -14,7 +14,7 @@ pca = PCA9685(i2c)
 pca.frequency = 100
 
 servo7 = servo.Servo(pca.channels[channel_servo])
-servo7.angle = 94.3
+servo7.angle = 93.5
 
 def Motor_Speed(pca, percent, channel = channel_num):
     print(percent)
