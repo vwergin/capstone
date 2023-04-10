@@ -27,7 +27,7 @@ first = 1
 def tracking():
     global first
 #    camera.capture("outsidepic2.jpg")
-    img = cv2.imread("outsidepic2.jpg")
+    img = cv2.imread("outsidepic.jpg")
     hsv_img = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
     print(hsv_img.shape)
     hsv_img2 = hsv_img[607:1080, 0:1920]
@@ -95,7 +95,7 @@ def tracking():
     first = first + 1
 #    print(first)
     monarch_filtered = cv2.circle(img, (cX, cY),5,(0,0,255), 2)
-    cv2.imwrite('grass_filtered4.png', monarch_filtered)
+    cv2.imwrite('grass_filtered5.png', monarch_filtered)
     print("middle", cX, cY)
 
 #Motor_Speed(pca, .16, channel_motor)
