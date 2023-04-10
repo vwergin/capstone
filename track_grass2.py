@@ -30,7 +30,7 @@ def tracking():
     img = cv2.imread("grass_filtered8.png")
     hsv_img = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
     print(hsv_img.shape)
-    hsv_img2 = hsv_img[550:750, 600:650]
+    hsv_img2 = hsv_img[550:950, 600:650]
 #    print(hsv_img2.shape)
     mask_img = cv2.inRange(hsv_img2, (40, 10, 10), (80, 255, 255))
     mask_blur = cv2.blur(mask_img, (5,5))
@@ -71,7 +71,7 @@ def tracking():
     first = first + 1
 #    print(first)
 #    monarch_filtered = cv2.circle(img, (cX, cY),5,(0,0,255), 2)
-    cv2.imwrite('grass_filtered10.png', hsv_img2)
+    cv2.imwrite('grass_filtered11.png', hsv_img2)
     print("middle", cX, cY)
 
 #Motor_Speed(pca, .16, channel_motor)
