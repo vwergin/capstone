@@ -95,7 +95,7 @@ def tracking():
     first = first + 1
 #    print(first)
     monarch_filtered = cv2.circle(img, (cX, cY),5,(0,0,255), 2)
-    cv2.imwrite('grass_filtered5.png', monarch_filtered)
+    cv2.imwrite('grass_filtered6.png', hsv_img2)
     print("middle", cX, cY)
 
 #Motor_Speed(pca, .16, channel_motor)
