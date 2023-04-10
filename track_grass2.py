@@ -26,8 +26,8 @@ def Motor_Speed(pca, percent, channel = channel_motor):
 first = 1
 def tracking():
     global first
-#    camera.capture("outsidepic2.jpg")
-    img = cv2.imread("outsidepic.jpg")
+    camera.capture("outsidepic3.jpg")
+    img = cv2.imread("outsidepic3.jpg")
     hsv_img = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
     print(hsv_img.shape)
     hsv_img2 = hsv_img[607:1080, 0:1920]
