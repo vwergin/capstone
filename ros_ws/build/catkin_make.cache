@@ -1,0 +1,2 @@
+acc:images:steering
+-DCATKIN_DEVEL_PREFIX=/home/pi/capstone/ros_ws/devel -DCMAKE_INSTALL_PREFIX=/home/pi/capstone/ros_ws/install -G Unix Makefiles
