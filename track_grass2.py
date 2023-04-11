@@ -19,7 +19,7 @@ pca = PCA9685(i2c)
 pca.frequency = 100
 channel_num = 14
 servo7 = servo.Servo(pca.channels[channel_num])
-servo7.angle = 93.5
+servo7.angle = 92
 
 def Motor_Speed(pca, percent, channel = channel_motor):
     pca.channels[channel].duty_cycle = math.floor(percent*65535)
@@ -33,7 +33,7 @@ def tracking():
     print(hsv_img.shape)
     hsv_img2 = hsv_img[500:1000, 600:650]
 #    print(hsv_img2.shape)
-    mask_img = cv2.inRange(hsv_img2, (2, 10, 10), (25, 255, 255))
+    mask_img = cv2.inRange(hsv_img, (50, 10, 10), (70, 255, 255))
     mask_blur = cv2.blur(mask_img, (5,5))
     th, thresh = cv2.threshold(mask_blur, 200, 255, cv2.THRESH_BINARY)
 
@@ -47,16 +47,16 @@ def tracking():
     cX = int(M["m10"]/M["m00"])
     cY = int(M["m01"]/M["m00"])
 
-    for i in range(690, 720):
-        for j in range(600, 650):
-            print(i, hsv_img[i, j, 0], hsv_img[i,j,1], hsv_img[i,j,2])
+#    for i in range(690, 720):
+#        for j in range(600, 650):
+#            print(i, hsv_img[i, j, 0], hsv_img[i,j,1], hsv_img[i,j,2])
 # do 1024 - 665 = 360
 # middle is 609
 # good distance is 665
 # this for loop is for one horizontal line
 # this is vertical line
     if cX == 0:
-        dist = 870
+        dist = 890
         print("sure")
     else:
         dist = 1024-cY
@@ -64,40 +64,39 @@ def tracking():
 # middle is 83 ish, if index is less than 80, too close, turn right, 
 # if greater than 80, too far, turn left
     if first == 1 or first ==2:
-       servo7.angle = 93.5
+       servo7.angle = 92
     else:
-        if dist < 860:
+        if dist < 880:
             print("too close")
 #93
-            servo7.angle = 87
+            servo7.angle = 86
             time.sleep(.25)
-            servo7.angle = 93.5
-        elif dist > 880:
+            servo7.angle = 92
+        elif dist > 900:
             print("too far")
-            servo7.angle = 100
+            servo7.angle = 98
             time.sleep(.25)
-            servo7.angle = 93.5
+            servo7.angle = 92
         else:
             print("just right")
-            servo7.angle = 93.5
+            servo7.angle = 92
     first = first + 1
 #    print(first)
 #    monarch_filtered = cv2.circle(hsv_img2, (cX, cY),5,(0,0,255), 2)
 #    cv2.imwrite('grass_filtered13.png', monarch_filtered)
     print("middle", cX, cY)
-
-#Motor_Speed(pca, .16, channel_motor)
+Motor_Speed(pca, .16, channel_motor)
 #time.sleep(.1)
 #tracking()
-for i in range(3):
+for i in range(15):
 #    first = time.time()
 #    Motor_Speed(pca, .15, channel_motor)
     tracking()
-#    time.sleep(2)
+    time.sleep(.25)
 #    last = time.time()
 #    Motor_Speed(pca, .1525, channel_motor)
 #    print("time:", last-first)
 #    time.sleep(.1)
 
-#Motor_Speed(pca, .15, channel_motor)
+Motor_Speed(pca, .15, channel_motor)
 

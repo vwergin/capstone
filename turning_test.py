@@ -41,18 +41,18 @@ if x == "":
     start_time = time.time()
 
 #section for testing the timing
-#y = input("hit enter when ready to go straight") 
-#if y=="":
- #   straight()
- #   end_time = time.time()
-#print(end_time-start_time)
-#time.sleep(1)
+y = input("hit enter when ready to go straight") 
+if y=="":
+    straight()
+    end_time = time.time()
+print(end_time-start_time)
+time.sleep(1)
 
 #section for hard coded time
-time_turn = 0.820
-time.sleep(time_turn)
-straight()
-time.sleep(1)
+#time_turn = 0.820
+#time.sleep(time_turn)
+#straight()
+#time.sleep(1)
 
 
 Motor_Speed(pca, .15, channel_motor)
