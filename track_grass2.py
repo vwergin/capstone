@@ -26,8 +26,8 @@ def Motor_Speed(pca, percent, channel = channel_motor):
 first = 1
 def tracking():
     global first
-    camera.capture("firstroad4.jpg")
-    img = cv2.imread("firstroad4.jpg")
+    camera.capture("first_road" + str(first) + ".jpg")
+    img = cv2.imread("first_road" + str(first) + ".jpg")
     print(img.shape)
     hsv_img = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
     print(hsv_img.shape)
@@ -88,11 +88,11 @@ def tracking():
 
 #Motor_Speed(pca, .16, channel_motor)
 #time.sleep(.1)
-tracking()
-#for i in range(3):
+#tracking()
+for i in range(3):
 #    first = time.time()
 #    Motor_Speed(pca, .15, channel_motor)
-#    tracking()
+    tracking()
 #    time.sleep(2)
 #    last = time.time()
 #    Motor_Speed(pca, .1525, channel_motor)
