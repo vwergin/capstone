@@ -26,13 +26,13 @@ def Motor_Speed(pca, percent, channel = channel_motor):
 first = 1
 def tracking():
     global first
-    camera.capture("grass_filtered11.png")
-    img = cv2.imread("grass_filtered11.png")
+    camera.capture("firstroad.png")
+    img = cv2.imread("firstroad.png")
     hsv_img = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
     print(hsv_img.shape)
     hsv_img2 = hsv_img[500:1000, 600:650]
 #    print(hsv_img2.shape)
-    mask_img = cv2.inRange(hsv_img2, (50, 10, 10), (70, 255, 255))
+    mask_img = cv2.inRange(hsv_img2, (2, 10, 10), (25, 255, 255))
     mask_blur = cv2.blur(mask_img, (5,5))
     th, thresh = cv2.threshold(mask_blur, 200, 255, cv2.THRESH_BINARY)
 
@@ -63,37 +63,37 @@ def tracking():
        servo7.angle = 93.5
     else:
         if dist < 860:
-            print("first")
+            print("too close")
 #93
             servo7.angle = 87
             time.sleep(.25)
             servo7.angle = 93.5
         elif dist > 880:
-            print("second")
+            print("too far")
             servo7.angle = 100
             time.sleep(.25)
             servo7.angle = 93.5
         else:
-            print("third")
+            print("just right")
             servo7.angle = 93.5
     first = first + 1
 #    print(first)
-#    monarch_filtered = cv2.circle(img, (cX, cY),5,(0,0,255), 2)
-#    cv2.imwrite('grass_filtered11.png', hsv_img2)
+    monarch_filtered = cv2.circle(hsv_img2, (cX, cY),5,(0,0,255), 2)
+    cv2.imwrite('grass_filtered12.png', monarch_filtered)
     print("middle", cX, cY)
 
-Motor_Speed(pca, .16, channel_motor)
+#Motor_Speed(pca, .16, channel_motor)
 #time.sleep(.1)
-#tracking()
-for i in range(5):
+tracking()
+#for i in range(5):
 #    first = time.time()
 #    Motor_Speed(pca, .15, channel_motor)
-    tracking()
+#    tracking()
 #    time.sleep(1)
 #    last = time.time()
 #    Motor_Speed(pca, .1525, channel_motor)
 #    print("time:", last-first)
 #    time.sleep(.1)
 
-Motor_Speed(pca, .15, channel_motor)
+#Motor_Speed(pca, .15, channel_motor)
 
