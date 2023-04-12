@@ -15,9 +15,8 @@ def func2():
 def func3():
     print("3")
 
-test = True
 num = 1
-while test:
+while True:
     if num <6:
         Thread(target = func1).start()
         Thread(target = func2).start()

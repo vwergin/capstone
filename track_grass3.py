@@ -11,13 +11,14 @@ from adafruit_motor import servo
 from adafruit_pca9685 import PCA9685
 from picamera import PiCamera
 camera = PiCamera()
+from threading import Thread
 
 #motor
 channel_motor = 15
 
 #lidar
-#PORT_NAME = '/dev/ttyUSB0'
-#lidar = RPLidar(None, PORT_NAME)
+PORT_NAME = '/dev/ttyUSB0'
+lidar = RPLidar(None, PORT_NAME)
 
 #steering
 i2c = busio.I2C(SCL, SDA)
@@ -36,8 +37,8 @@ ref = 0
 def tracking():
     global first
     global ref
-    camera.capture("first_road" + str(first) + ".jpg")
-    img = cv2.imread("first_road" + str(first) + ".jpg")
+    camera.capture("first_road1.jpg")
+    img = cv2.imread("first_road1.jpg")
     hsv_img = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
     hsv_img2 = hsv_img[614:1024, 0:1280] # crop bottom with grass
     print(hsv_img2.shape)
@@ -86,11 +87,12 @@ def tracking():
 #    monarch_filtered = cv2.circle(hsv_img2, (cX, cY),5,(0,0,255), 2)
 #    cv2.imwrite('grass_filtered13.png', monarch_filtered)
     print("middle", cX, cY)
+
 found_pole = 0
 def dataprocess(data):
     global found_pole
     ref_point = data[270]
-    if 300 < ref_point < 500:
+    if 2000 < ref_point < 2500:
         print("ref point", ref_point)
         servo7.angle = 120 # change values of angle and sleep time
         time.sleep(1.1)
@@ -101,9 +103,10 @@ def dataprocess2(data):
     ref_point = data[270]
     if 300 < ref_point < 500:
         Motor_Speed(pca, .15, channel_motor)
-
+    found_pole = 2
 scan_data = [0]*360
-def datascan()
+def datascan():
+    global found_pole
     for scan in lidar.iter_scans():
         for (_,angle,distance) in scan:
             scan_data[min([359, floor(angle)])] = distance
@@ -112,12 +115,20 @@ def datascan()
         else:
             dataprocess(scan_data)
 
+while True:
+    if found_pole <2:
+        Thread(target = tracking).start()
+#        Thread(target = datascan).start()
+    else:
+        Motor_Speed(pca, .15, channel_motor)
+        break
+print("all done")
 #Motor_Speed(pca, .16, channel_motor)
 #tracking()
-for i in range(3):
+#for i in range(3):
 #    first_time = time.time()
-    tracking()
-    time.sleep(.25)
+#    tracking()
+#    time.sleep(.25)
 #    last_time = time.time()
 #    print("time:", last_time-first_time)
 
