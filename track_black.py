@@ -3,7 +3,7 @@ import time
 
 img = cv2.imread("first_road6.jpg")
 
-hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
+#hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
 #print(img.shape)
 img2 = img[400:720, 0:1280]
 print(img2.shape)

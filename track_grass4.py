@@ -29,6 +29,7 @@ servo7 = servo.Servo(pca.channels[channel_num])
 steer_ref = 92
 servo7.angle = steer_ref
 
+system1 = True
 def Motor_Speed(pca, percent, channel = channel_motor):
     pca.channels[channel].duty_cycle = math.floor(percent*65535)
 
@@ -41,43 +42,45 @@ def tracking():
         global ref
         camera.capture("first_road1.jpg")
         img = cv2.imread("first_road1.jpg")
-        hsv_img = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
-        hsv_img2 = hsv_img[614:1024, 0:1280] # crop bottom with grass
-        print(hsv_img2.shape)
-        mask_img = cv2.inRange(hsv_img2, (50, 10, 10), (70, 255, 255))
+#        hsv_img = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
+#        hsv_img2 = hsv_img[614:1024, 0:1280] # crop bottom with grass
+        print(img.shape)
+        img2 = img[614:1024, 0:1280]
+        mask_img = cv2.inRange(img2, (40, 10, 10), (80, 95, 95))
 #    mask_blur = cv2.blur(mask_img, (5,5))
 #    th, thresh = cv2.threshold(mask_blur, 200, 255, cv2.THRESH_BINARY)
 
     # find center
-        M = cv2.moments(mask_img)
-        if M["m00"] == 0:
-            print("no center detected")
-            M["m00"] = 1
-        cX = int(M["m10"]/M["m00"])
-        cY = int(M["m01"]/M["m00"])
+#        M = cv2.moments(mask_img)
+#        if M["m00"] == 0:
+#            print("no center detected")
+#            M["m00"] = 1
+#        cX = int(M["m10"]/M["m00"])
+#        cY = int(M["m01"]/M["m00"])
 
-    # making reference distance
-        if first == 2:
-            ref = cY
-
-    # if it doesnt find center
-        if cX == 0:
-            dist = ref
-            print("sure")
-        else:
-            dist = 1024-cY
+        row = 0
+        for i in range(50, 410):
+            white = 0
+            for j in range(550, 750):
+                if mask_img[i,j] == 255:
+                    white = 1
+            if white ==0:
+                row = i
+                break
+        print("row", row)
+        dist = 1024 - row
         print("dist", dist)
 
     # steering based on ref distance
         if first == 1:
             servo7.angle = steer_ref
         else:
-            if dist < ref - 10:
+            if dist < 830:
                 print("too close")
                 servo7.angle = 86
                 time.sleep(.25)
                 servo7.angle = steer_ref
-            elif dist > ref +10:
+            elif dist > 850:
                 print("too far")
                 servo7.angle = 98
                 time.sleep(.25)
@@ -88,10 +91,10 @@ def tracking():
         first = first + 1
 #    monarch_filtered = cv2.circle(hsv_img2, (cX, cY),5,(0,0,255), 2)
 #    cv2.imwrite('grass_filtered13.png', monarch_filtered)
-        print("middle", cX, cY)
 
 found_pole = 0
 def dataprocess(data):
+    print("hello")
     global found_pole
     global should_track
     ref_point = data[90]
@@ -112,33 +115,39 @@ def dataprocess2(data):
         Motor_Speed(pca, .15, channel_motor)
     found_pole = 2
 
-scan_data = [0]*360
+
 def datascan():
+    scan_data = [0]*360
     global found_pole
-    for scan in lidar.iter_scans():
-        for (_,angle,distance) in scan:
-            scan_data[min([359, floor(angle)])] = distance
-        if found_pole > 0:
-            dataprocess2(scan_data)
-        else:
-            dataprocess(scan_data)
+    try:
+        for scan in lidar.iter_scans():
+            for (_,angle,distance) in scan:
+                scan_data[min([359, floor(angle)])] = distance
+#            if found_pole > 0:
+#                dataprocess2(scan_data)
+#            else:
+#                dataprocess(scan_data)
+    except KeyboardInterrupt:
+         print("stopping")
+    lidar.stop()
+    lidar.disconnect()
 
 def stop():
-    global system
+#    global system1
     x = input("hit enter when to stop")
     if x =="":
         Motor_Speed(pca, .15, channel_motor)
-        system = False
+        system1 = False
+        print("this should stop")
 
-system = True
-while system:
-    if found_pole <2:
-        Thread(target = tracking).start()
-#        Thread(target = datascan).start()
-        Thread(target = stop).start()
-    else:
-        Motor_Speed(pca, .15, channel_motor)
-        break
+while system1:
+#    if found_pole <2:
+#    Thread(target = tracking).start()
+    Thread(target = datascan).start()
+#    Thread(target = stop).start()
+#    else:
+#        Motor_Speed(pca, .15, channel_motor)
+#        break
 print("all done")
 
 

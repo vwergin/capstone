@@ -37,7 +37,7 @@ def dataprocess(data):
 #     for i in range(1,5):
 #         print(i)
      j = 0
-     for i in range(240,290):
+     for i in range(0,360):
          print(j, data[i])
          j = j + 1
 
