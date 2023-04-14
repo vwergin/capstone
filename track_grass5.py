@@ -26,13 +26,18 @@ pca = PCA9685(i2c)
 pca.frequency = 100
 channel_num = 14
 servo7 = servo.Servo(pca.channels[channel_num])
-steer_ref = 92
+steer_ref = 91
 servo7.angle = steer_ref
 
 system1 = True
 def Motor_Speed(pca, percent, channel = channel_motor):
     pca.channels[channel].duty_cycle = math.floor(percent*65535)
 
+
+def camerawarm():
+    camera.capture("first_road1.jpg")
+#    img = cv2.imread("first_road1.jpg")
+    time.sleep(1)
 should_track = True
 first = 1
 ref = 0
@@ -60,7 +65,7 @@ def tracking():
 #        cY = int(M["m01"]/M["m00"])
 
         row = 0
-        for i in range(50, 410):
+        for i in range(100, 410):
             white = 0
             for j in range(550, 750):
                 if mask_img[i,j] == 255:
@@ -73,17 +78,17 @@ def tracking():
         print("dist", dist)
 
     # steering based on ref distance
-        if first == 1:
+        if first <4:
             servo7.angle = steer_ref
         else:
-            if dist < 830:
+            if row < 152:
                 print("too close")
-                servo7.angle = 86
+                servo7.angle = 85
                 time.sleep(.25)
                 servo7.angle = steer_ref
-            elif dist > 850:
+            elif row > 162:
                 print("too far")
-                servo7.angle = 98
+                servo7.angle = 97
                 time.sleep(.25)
                 servo7.angle = steer_ref
             else:
@@ -95,15 +100,16 @@ def tracking():
 
 found_pole = 0
 def dataprocess(data):
-#    print("hello")
+    print("hello")
     global found_pole
     global should_track
     ref_point = data[90]
-    if 2000 < ref_point < 2500:
+    print("refpoint", ref_point)
+    if 1200 < ref_point < 2200:
         print("ref point", ref_point)
         should_track = False
-        servo7.angle = 120 # change values of angle and sleep time
-        time.sleep(1.1)
+        servo7.angle = 110 # change values of angle and sleep time
+        time.sleep(1.97)
         servo7.angle = steer_ref
         should_track = True
         time.sleep(1)
@@ -113,7 +119,7 @@ def dataprocess2(data):
 #    print("goodbye")
     global found_pole
     ref_point = data[90]
-    if 300 < ref_point < 500:
+    if 1200 < ref_point < 2200:
         Motor_Speed(pca, .15, channel_motor)
     found_pole = 2
 
@@ -121,6 +127,8 @@ def dataprocess2(data):
 
 scan_data = [0]*360
 #global found_pole
+camerawarm()
+Motor_Speed(pca, .16, channel_motor)
 try:
     for scan in lidar.iter_scans():
         for (_,angle,distance) in scan:

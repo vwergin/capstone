@@ -7,4 +7,7 @@
 subdirs("gtest")
 subdirs("acc")
 subdirs("images")
+subdirs("initialize")
+subdirs("lidar")
+subdirs("motor")
 subdirs("steering")

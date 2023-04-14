@@ -13,38 +13,49 @@ import busio
 
 from adafruit_motor import servo
 from adafruit_pca9685 import PCA9685
-
-
+check=0
+first = 1
+ref_row = 1
 def callback(data):
+    global first
+    global ref_row
+    global check
+    if check==1:
+    	rospy.loginfo(data.data)
+    	row = data.data
+    	i2c = busio.I2C(SCL, SDA)
+    	pca = PCA9685(i2c)
+    	pca.frequency = 100
+    	channel_num = 14
+    	servo7 = servo.Servo(pca.channels[channel_num])
+    	steer_ref = 92
+    	servo7.angle = steer_ref
 
-    rospy.loginfo(data.data)
+    	if first ==1:
+        	ref_row = row
 
-    i2c = busio.I2C(SCL, SDA)
-    pca = PCA9685(i2c)
-    pca.frequency = 100
-    channel_num = 14
-    servo7 = servo.Servo(pca.channels[channel_num])
-    servo7.angle = 94
+    	if first ==1 or row == 0:
+            servo7.angle = steer_ref
+    	else:
+            if row < ref_row -5:
+            	print("too close")
+            	servo7.angle = steer_ref -6
+            	time.sleep(.25)
+            	servo7.angle = steer_ref
+            elif row > ref_row +5:
+            	print("too far")
+            	servo7.angle = steer_ref + 6
+            	time.sleep(.25)
+            	servo7.angle = steer_ref
+            else:
+            	print("just right")
+            	servo7.angle = steer_ref
+    	first = first + 1
 
-    constant = 1
-    test = True
-    while test:
-        angle_desired = 94 - data.data*constant
-        print("angle desired:", angle_desired)
-        if angle_desired < 84:
-            print("first")
-            servo7.angle = 84
-        elif angle_desired > 104:
-            print("second")
-            servo7.angle = 104
-        else:
-            print("third")
-            servo7.angle = angle_desired
-        time.sleep(1)
-        servo7.angle = 94
-        test = False
+def check_start(data):
+    global check
+    check = data.data
 
-    
 def steering():
 
     # In ROS, nodes are uniquely named. If two nodes with the same
@@ -55,7 +66,7 @@ def steering():
     rospy.init_node('steering', anonymous=True)
 
     rospy.Subscriber("sidewalk", Float32, callback)
-
+    rospy.Subscriber("ready_motor", UInt8, check_start)
     # spin() simply keeps python from exiting until this node is stopped
     rospy.spin()
 

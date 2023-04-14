@@ -24,6 +24,10 @@ lidar = RPLidar(None, PORT_NAME)
 
 
 def dataprocess(data):
+    ref = data[90]
+    print("ref", ref)
+    if 1200< ref< 2200:
+        print("yes")
  #   time.sleep(1)
 #    time.sleep(3)
 #    firstpoints =[ data[355], data[356], data[357], data[358]]
@@ -33,14 +37,14 @@ def dataprocess(data):
 #            servo7.angle = 60
 #        if i > 795:
 #            servo7.angle= 90
-     newdata = []
+#     newdata = []
 #     for i in range(1,5):
 #         print(i)
-     j = 0
-     for i in range(0,360):
-         print(j, data[i])
-         j = j + 1
-
+#     j = 0
+#     for i in range(0,180):
+#         print(j, data[i])
+#         j = j + 1
+#
 scan_data = [0]*360
 
 try:

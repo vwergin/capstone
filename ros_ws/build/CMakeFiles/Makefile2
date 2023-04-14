@@ -56,6 +56,9 @@ CMAKE_BINARY_DIR = /home/pi/capstone/ros_ws/build
 all: gtest/all
 all: acc/all
 all: images/all
+all: initialize/all
+all: lidar/all
+all: motor/all
 all: steering/all
 
 .PHONY : all
@@ -64,6 +67,9 @@ all: steering/all
 preinstall: gtest/preinstall
 preinstall: acc/preinstall
 preinstall: images/preinstall
+preinstall: initialize/preinstall
+preinstall: lidar/preinstall
+preinstall: motor/preinstall
 preinstall: steering/preinstall
 
 .PHONY : preinstall
@@ -77,6 +83,9 @@ clean: CMakeFiles/clean_test_results.dir/clean
 clean: gtest/clean
 clean: acc/clean
 clean: images/clean
+clean: initialize/clean
+clean: lidar/clean
+clean: motor/clean
 clean: steering/clean
 
 .PHONY : clean
@@ -177,6 +186,60 @@ images/preinstall:
 images/clean:
 
 .PHONY : images/clean
+
+#=============================================================================
+# Directory level rules for directory initialize
+
+# Recursive "all" directory target.
+initialize/all:
+
+.PHONY : initialize/all
+
+# Recursive "preinstall" directory target.
+initialize/preinstall:
+
+.PHONY : initialize/preinstall
+
+# Recursive "clean" directory target.
+initialize/clean:
+
+.PHONY : initialize/clean
+
+#=============================================================================
+# Directory level rules for directory lidar
+
+# Recursive "all" directory target.
+lidar/all:
+
+.PHONY : lidar/all
+
+# Recursive "preinstall" directory target.
+lidar/preinstall:
+
+.PHONY : lidar/preinstall
+
+# Recursive "clean" directory target.
+lidar/clean:
+
+.PHONY : lidar/clean
+
+#=============================================================================
+# Directory level rules for directory motor
+
+# Recursive "all" directory target.
+motor/all:
+
+.PHONY : motor/all
+
+# Recursive "preinstall" directory target.
+motor/preinstall:
+
+.PHONY : motor/preinstall
+
+# Recursive "clean" directory target.
+motor/clean:
+
+.PHONY : motor/clean
 
 #=============================================================================
 # Directory level rules for directory steering
