@@ -39,6 +39,9 @@ def callback1(data):
         print("start going")
         pca.channels[channel_motor].duty_cycle = math.floor(.16*65535)
         count = count + 1
+    x = input("type enter to stop motor ")
+    if x == "":
+        pca.channels[channel_motor].duty_cycle = math.floor(.15*65535)
 
 def start():
     rospy.init_node('start', anonymous = True)

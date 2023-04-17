@@ -38,4 +38,5 @@ if __name__ == '__main__':
     try:
         initialize_start()
     except rospy.ROSInterruptException:
+#        print("stopping")
         pass

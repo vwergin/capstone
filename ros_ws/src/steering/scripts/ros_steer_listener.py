@@ -20,7 +20,8 @@ def callback(data):
     global first
     global ref_row
     global check
-    if check==1:
+    global checkpole
+    if check==1 and checkpole ==0:
         rospy.loginfo(data.data)
         row = data.data
         i2c = busio.I2C(SCL, SDA)
@@ -31,7 +32,7 @@ def callback(data):
         steer_ref = 92
         servo7.angle = steer_ref
 
-        if first ==1:
+        if first ==1 and row != 0:
             ref_row = row
         print("ref", ref_row)
         if first ==1 or row == 0:
@@ -58,6 +59,10 @@ def check_start(data):
     global check
     check = data.data
 
+def check_pole(data):
+    global checkpole
+    checkpole = data.data
+
 def steering():
 
     # In ROS, nodes are uniquely named. If two nodes with the same
@@ -69,6 +74,7 @@ def steering():
 
     rospy.Subscriber("sidewalk", Float32, callback)
     rospy.Subscriber("ready_motor", UInt8, check_start)
+    rospy.Subscriber("pole_detection", UInt8, check_pole)
     # spin() simply keeps python from exiting until this node is stopped
     rospy.spin()
 
