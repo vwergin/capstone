@@ -21,36 +21,38 @@ def callback(data):
     global ref_row
     global check
     if check==1:
-    	rospy.loginfo(data.data)
-    	row = data.data
-    	i2c = busio.I2C(SCL, SDA)
-    	pca = PCA9685(i2c)
-    	pca.frequency = 100
-    	channel_num = 14
-    	servo7 = servo.Servo(pca.channels[channel_num])
-    	steer_ref = 92
-    	servo7.angle = steer_ref
+        rospy.loginfo(data.data)
+        row = data.data
+        i2c = busio.I2C(SCL, SDA)
+        pca = PCA9685(i2c)
+        pca.frequency = 100
+        channel_num = 14
+        servo7 = servo.Servo(pca.channels[channel_num])
+        steer_ref = 92
+        servo7.angle = steer_ref
 
-    	if first ==1:
-        	ref_row = row
-
-    	if first ==1 or row == 0:
+        if first ==1:
+            ref_row = row
+        print("ref", ref_row)
+        if first ==1 or row == 0:
             servo7.angle = steer_ref
-    	else:
+        elif ref_row - 50 < row < ref_row + 50:
             if row < ref_row -5:
-            	print("too close")
-            	servo7.angle = steer_ref -6
-            	time.sleep(.25)
-            	servo7.angle = steer_ref
+                print("too close")
+                servo7.angle = steer_ref -6
+                time.sleep(.25)
+                servo7.angle = steer_ref
             elif row > ref_row +5:
-            	print("too far")
-            	servo7.angle = steer_ref + 6
-            	time.sleep(.25)
-            	servo7.angle = steer_ref
+                print("too far")
+                servo7.angle = steer_ref + 6
+                time.sleep(.25)
+                servo7.angle = steer_ref
             else:
-            	print("just right")
-            	servo7.angle = steer_ref
-    	first = first + 1
+                print("just right")
+                servo7.angle = steer_ref
+        else:
+            servo7.angle = steer_ref
+        first = first + 1
 
 def check_start(data):
     global check

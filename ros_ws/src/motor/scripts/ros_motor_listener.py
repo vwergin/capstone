@@ -26,30 +26,29 @@ servo7.angle = steer_ref
 from adafruit_motor import servo
 from adafruit_pca9685 import PCA9685
 
-first = 1
+found_pole = 0
 ref_row = 1
 def callback(data):
-    global first
+    global found_pole
     global ref_row
     global pca
     global channel_motor
+    global first_time
     rospy.loginfo(data.data)
-    found_pole = data.data
+    pole = data.data
 #    servo7.angle = steer_ref
-
-    if found_pole > 0:
+#   adding time delay in order to get lidar to agree again
+    if pole == 1 and found_pole == 1 and time.time() > first_time:
+        print("stopping")
         pca.channels[channel_motor].duty_cycle = math.floor(.15*65535)
-    else:
+    elif pole == 1 and found_pole == 0:
+        first_time = time.time() + 3
+        print("turning")
         servo7.angle = 110
         time.sleep(1.97)
         servo7.angle = steer_ref
-def callback1(data):
-    global channel_motor
-    global pca
-    rospy.loginfo(data.data)
-    ready = data.data
-    if ready > 0:
-        pca.channels[channel_motor].duty_cycle = math.floor(.16*65535)
+#        time.sleep(2)
+        found_pole = 1
 
 def motor():
 
@@ -65,10 +64,6 @@ def motor():
     # spin() simply keeps python from exiting until this node is stopped
     rospy.spin()
 
-def start():
-    rospy.init_node('start', anonymous = True)
-    rospy.Subscriber("ready_motor", UInt8, callback1)
-    rospy.spin()
+
 if __name__ == '__main__':
     motor()
-    start()

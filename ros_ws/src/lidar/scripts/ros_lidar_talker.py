@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 import rospy
-from std_msgs.msg import String 
+from std_msgs.msg import String
 from std_msgs.msg import UInt8
 from std_msgs.msg import Float32
 
@@ -25,7 +25,7 @@ def lidar_data():
     rospy.init_node('lidar_data',anonymous=True)
     #rate = rospy.Rate(4) #4 Hz (measurement 4 times a second)
 
-    #global found_poles 
+#    found_poles = 0
 
     while not rospy.is_shutdown():
         #get the reading here
@@ -36,19 +36,16 @@ def lidar_data():
 
             #looking for the first time we get a reading in the range of the pole
             ref_point = scan_data[90]
-            
             if 1200 < ref_point < 2200:
-                pole = 1
-            else: 
+                pole =  1
+            else:
                 pole = 0
-
             #found_poles = found_poles + pole
 
 
             rospy.loginfo(pole)
             pub.publish(pole)
             #rate.sleep()
-
 if __name__ == '__main__':
     try:
         lidar_data()

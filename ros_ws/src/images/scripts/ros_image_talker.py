@@ -21,7 +21,8 @@ from picamera import PiCamera
 
 def cam_data():
     camera = PiCamera()
-
+    camera.capture("firstroad1.jpg")
+    time.sleep(1)
     pub = rospy.Publisher('sidewalk', Float32, queue_size = 15)
     rospy.init_node('cam_data',anonymous=True)
     rate = rospy.Rate(4) #4 Hz (measurement 4 times a second)

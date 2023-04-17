@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 import rospy
-from std_msgs.msg import String 
+from std_msgs.msg import String
 from std_msgs.msg import UInt8
 from std_msgs.msg import Float32
 
@@ -12,8 +12,8 @@ from board import SCL, SDA
 import busio
 import os
 from math import cos, sin, pi, floor
-from picamera import PiCamera
-
+#from picamera import PiCamera
+#camera = PiCamera()
 
 def initialize_start():
     #camera = PiCamera()
@@ -22,6 +22,10 @@ def initialize_start():
     rospy.init_node('initialize_start',anonymous=True)
     rate = rospy.Rate(4) #4 Hz (measurement 4 times a second)
     ready = 0
+
+#    camera.capture("roadpic1.jpg")
+    time.sleep(1)
+    print("ready")
 
     while not rospy.is_shutdown():
         #take a couple photos here and then send the signal that they have been taken
