@@ -35,7 +35,7 @@ def cam_data():
         mask_img = cv2.inRange(img2, (40, 10, 10), (80, 95, 95))
 
         row = 0
-        for i in range(100, 410):
+        for i in range(50, 410):
             white = 0
             for j in range(550, 750):
                 if mask_img[i,j] == 255:

@@ -29,7 +29,7 @@ def callback(data):
         pca.frequency = 100
         channel_num = 14
         servo7 = servo.Servo(pca.channels[channel_num])
-        steer_ref = 92
+        steer_ref = 94
         servo7.angle = steer_ref
 
         if first ==1 and row != 0:
@@ -37,15 +37,15 @@ def callback(data):
         print("ref", ref_row)
         if first ==1 or row == 0:
             servo7.angle = steer_ref
-        elif ref_row - 50 < row < ref_row + 50:
-            if row < ref_row -5:
+        elif ref_row - 100 < row < ref_row + 100:
+            if row > ref_row +8:
                 print("too close")
-                servo7.angle = steer_ref -6
+                servo7.angle = steer_ref +12
                 time.sleep(.25)
                 servo7.angle = steer_ref
-            elif row > ref_row +5:
+            elif row < ref_row -8:
                 print("too far")
-                servo7.angle = steer_ref + 6
+                servo7.angle = steer_ref - 12
                 time.sleep(.25)
                 servo7.angle = steer_ref
             else:

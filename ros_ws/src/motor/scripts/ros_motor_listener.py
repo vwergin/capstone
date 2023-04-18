@@ -20,7 +20,7 @@ pca = PCA9685(i2c)
 pca.frequency = 100
 channel_num = 14
 servo7 = servo.Servo(pca.channels[channel_num])
-steer_ref = 92
+steer_ref = 94
 servo7.angle = steer_ref
 
 from adafruit_motor import servo
