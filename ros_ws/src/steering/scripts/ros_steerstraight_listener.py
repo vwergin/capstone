@@ -32,27 +32,22 @@ def callback(data):
         steer_ref = 94
         servo7.angle = steer_ref
 
-        if first ==1 and row != 0:
-            ref_row = row
-        print("ref", ref_row)
-        if first ==1 or row == 0:
+        if row < row + 100 or row > row - 100:
             servo7.angle = steer_ref
-        elif ref_row - 100 < row < ref_row + 100:
-            if row > ref_row +5:
+        else:
+            if row > 640:
                 print("too close")
-                servo7.angle = steer_ref -6
-                time.sleep(.5)
+                servo7.angle = steer_ref +6
+                time.sleep(.25)
                 servo7.angle = steer_ref
-            elif row < ref_row -5:
+            elif row < 640:
                 print("too far")
-                servo7.angle = steer_ref + 6
-                time.sleep(.5)
+                servo7.angle = steer_ref - 6
+                time.sleep(.25)
                 servo7.angle = steer_ref
             else:
                 print("just right")
                 servo7.angle = steer_ref
-        else:
-            servo7.angle = steer_ref
         first = first + 1
 
 def check_start(data):

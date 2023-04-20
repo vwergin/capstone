@@ -1,4 +1,4 @@
-\import cv2
+import cv2
 import math
 import time
 from board import SCL, SDA

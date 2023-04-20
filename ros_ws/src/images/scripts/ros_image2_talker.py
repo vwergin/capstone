@@ -21,33 +21,27 @@ from picamera import PiCamera
 
 def cam_data():
     camera = PiCamera()
-    camera.capture("firstroad1.jpg")
-    time.sleep(1)
+#    camera.capture("firstroad1.jpg")
+#    time.sleep(1)
     pub = rospy.Publisher('sidewalk', Float32, queue_size = 15)
     rospy.init_node('cam_data',anonymous=True)
     rate = rospy.Rate(4) #4 Hz (measurement 4 times a second)
     while not rospy.is_shutdown():
         #get the reading here
-        camera.capture("firstroad1.jpg")
-        img = cv2.imread("firstroad1.jpg")
+        camera.capture("firstroad2.jpg")
+        img = cv2.imread("firstroad2.jpg")
 #        img2 = img[500:1024, 0:1280]
-        img2 = img[360:720,0:1280]
-       
+        img2 = img[500:1024,0:1280]
 #        hsv_img = cv2.cvtColor(img,cv2.COLOR_BGR2HSV)
-        mask_img = cv2.inRange(img2, (40, 10, 10), (80, 95, 95))
-	
-        row = 0
-#        for i in range(0, 524):
-        for i in range(0,360):
-            white = 0
-            for j in range(500, 800):
-                if mask_img[i,j] == 255:
-                    white = 1
-            if white ==0:
-                row = i
-                break
+        mask_img = cv2.inRange(img2, (40, 10, 10), (70, 255, 255))
 
-        sidewalk = row
+        M = cv2.moments(mask_img)
+        if M["m00"] ==0:
+            M["m00"] = 1
+        cX = int(M["m10"]/M["m00"])
+        cY = int(M["m01"]/M["m00"])
+
+        sidewalk = cX
         rospy.loginfo(sidewalk)
         pub.publish(sidewalk)
         rate.sleep()
