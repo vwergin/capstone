@@ -31,7 +31,8 @@ def cam_data():
         camera.capture("firstroad2.jpg")
         img = cv2.imread("firstroad2.jpg")
 #        img2 = img[500:1024, 0:1280]
-        img2 = img[500:1024,0:1280]
+#        print(img.shape)
+        img2 = img[650:1024,0:1280]
 #        hsv_img = cv2.cvtColor(img,cv2.COLOR_BGR2HSV)
         mask_img = cv2.inRange(img2, (40, 10, 10), (70, 255, 255))
 
@@ -41,6 +42,8 @@ def cam_data():
         cX = int(M["m10"]/M["m00"])
         cY = int(M["m01"]/M["m00"])
 
+        if M["m00"] == 0:
+            cX = 640
         sidewalk = cX
         rospy.loginfo(sidewalk)
         pub.publish(sidewalk)
