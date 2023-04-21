@@ -27,7 +27,7 @@ first = 0
 def take():
     global first
 #time.sleep(3)
-    camera.capture("zpic" + str(first) + ".jpg")
+    camera.capture("ypic" + str(first) + ".jpg")
     time.sleep(.5)
     print("taking photo")
     first = first + 1
