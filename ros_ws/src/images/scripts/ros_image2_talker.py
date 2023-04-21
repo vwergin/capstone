@@ -32,9 +32,9 @@ def cam_data():
         img = cv2.imread("firstroad2.jpg")
 #        img2 = img[500:1024, 0:1280]
 #        print(img.shape)
-        img2 = img[650:1024,0:1280]
+        img2 = img[600:1024,0:1280]
 #        hsv_img = cv2.cvtColor(img,cv2.COLOR_BGR2HSV)
-        mask_img = cv2.inRange(img2, (40, 10, 10), (70, 255, 255))
+        mask_img = cv2.inRange(img2, (25, 10, 10), (35, 255, 255))
 
         M = cv2.moments(mask_img)
         if M["m00"] ==0:
