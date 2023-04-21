@@ -35,14 +35,15 @@ def callback(data):
 #        if row < row + 100 or row > row - 100:
 #            servo7.angle = steer_ref
 #        else:
-        if 700 < row<750:
-            print("too close")
-            servo7.angle = steer_ref -6
+        ref = 160
+        if row<ref-10:
+            print("too far")
+            servo7.angle = steer_ref +10
             time.sleep(.5)
             servo7.angle = steer_ref
-        elif 500<row < 550:
-            print("too far")
-            servo7.angle = steer_ref + 6
+        elif row > ref + 10:
+            print("too close")
+            servo7.angle = steer_ref -10
             time.sleep(.5)
             servo7.angle = steer_ref
         else:
