@@ -22,6 +22,6 @@ def Motor_Speed(pca, percent, channel = channel_num):
 
 
 
-Motor_Speed(pca, .16, channel_num)
-time.sleep(4)
+Motor_Speed(pca, .158, channel_num)
+time.sleep(3)
 Motor_Speed(pca, .15, channel_num)

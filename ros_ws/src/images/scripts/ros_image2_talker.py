@@ -21,6 +21,7 @@ from picamera import PiCamera
 
 def cam_data():
     camera = PiCamera()
+#    camera.resolution=(640,540)
 #    camera.capture("firstroad1.jpg")
 #    time.sleep(1)
     pub = rospy.Publisher('sidewalk', Float32, queue_size = 15)
@@ -31,21 +32,23 @@ def cam_data():
         camera.capture("firstroad2.jpg")
         img = cv2.imread("firstroad2.jpg")
 #        img2 = img[500:1024, 0:1280]
-#        print(img.shape)
+        print(img.shape)
+
         img2 = img[math.floor(.7*img.shape[0]):img.shape[0],0:img.shape[1]]
 #        hsv_img = cv2.cvtColor(img,cv2.COLOR_BGR2HSV)
-        mask_img = cv2.inRange(img2, (10, 10, 10), (60, 255, 255))
+        mask_img = cv2.inRange(img2, (50, 10, 10), (70, 255, 255))
+ #       mask_img = cv2.inRange(img2, (20, 10, 10), (70, 255, 255))
 
         row = 0
         for i in range(0, mask_img.shape[0]):
             whites = 0
-            for j in range(1,mask_img.shape[1]):
+            for j in range(1,mask_img.shape[1]): # range(400,800): #mask_img.shape[1]):
                 if mask_img[i,j] == 255:
                     whites = whites + 1
             if whites < 150:
                 row = i
                 break
-
+            print(whites,i)    
 
         sidewalk = row
         rospy.loginfo(sidewalk)

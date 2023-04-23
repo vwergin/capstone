@@ -3,9 +3,10 @@ import cv2
 from picamera import PiCamera
 camera = PiCamera()
 #time.sleep(3)
-camera.capture("outsidepi3.jpg")
+camera.capture("outsidep5.jpg")
 #time.sleep(2)
-camera.capture("pictest.jpg")
+camera.resolution = (640, 540)
+camera.capture("outsidep6.jpg")
 img = cv2.imread("outsidepic3.jpg")
 #print(img.shape)
 img2 = img[400:1024,0:1280] 

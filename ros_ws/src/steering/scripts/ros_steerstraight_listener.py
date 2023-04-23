@@ -16,12 +16,17 @@ from adafruit_pca9685 import PCA9685
 check=0
 first = 1
 ref_row = 1
+preturn = 0
 def callback(data):
     global first
     global ref_row
     global check
     global checkpole
-    if check==1 and checkpole ==0:
+    global preturn
+    if checkpole==1:
+        preturn=1
+        #print("start steer")
+    if check==1 and checkpole==0: # preturn ==1 and checkpole==0:
         rospy.loginfo(data.data)
         row = data.data
         i2c = busio.I2C(SCL, SDA)
@@ -29,19 +34,21 @@ def callback(data):
         pca.frequency = 100
         channel_num = 14
         servo7 = servo.Servo(pca.channels[channel_num])
-        steer_ref = 94
+        steer_ref = 92
         servo7.angle = steer_ref
 
 #        if row < row + 100 or row > row - 100:
 #            servo7.angle = steer_ref
 #        else:
-        ref = 160
-        if row<ref-10:
+        ref = 180
+        if row==0:
+            servo7.angle=steer_ref
+        elif row<ref-15:
             print("too far")
-            servo7.angle = steer_ref +10
+            servo7.angle = steer_ref +5
             time.sleep(.5)
             servo7.angle = steer_ref
-        elif row > ref + 10:
+        elif row > ref + 15:
             print("too close")
             servo7.angle = steer_ref -10
             time.sleep(.5)
@@ -58,6 +65,7 @@ def check_start(data):
 def check_pole(data):
     global checkpole
     checkpole = data.data
+   
 
 def steering():
 
