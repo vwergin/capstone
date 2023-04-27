@@ -4,7 +4,7 @@ import math
 from picamera import PiCamera
 camera = PiCamera()
 #time.sleep(3)
-camera.capture("look_at_pic.jpg")
+#camera.capture("look_at_pic.jpg")
 #time.sleep(2)
 #camera.resolution = (640, 540)
 #camera.capture("outsidep6.jpg")
@@ -23,3 +23,6 @@ mask_img = cv2.inRange(img3, (40, 10, 10), (70, 255,255))
 cv2.imshow("og", mask_img)
 cv2.waitKey(5000)
 cv2.destroyAllWindows()
+
+cv2.imwrite("maskedtest1.jpg")
+
