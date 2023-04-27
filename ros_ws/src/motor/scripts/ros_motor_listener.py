@@ -20,7 +20,7 @@ pca = PCA9685(i2c)
 pca.frequency = 100
 channel_num = 14
 servo7 = servo.Servo(pca.channels[channel_num])
-steer_ref = 93
+steer_ref = 94
 servo7.angle = steer_ref
 
 from adafruit_motor import servo
@@ -40,12 +40,16 @@ def callback(data):
 #   adding time delay in order to get lidar to agree again
     if pole == 1 and found_pole == 1 and time.time() > first_time:
         print("stopping")
-        pca.channels[channel_motor].duty_cycle = math.floor(.15*65535)
+        #pca.channels[channel_motor].duty_cycle = math.floor(.15*65535)
+        #pca.channels[channel_motor].duty_cycle = math.floor(.15*65535)
+
+#    if pole == 1 and found_pole == 0:
     elif pole == 1 and found_pole == 0:
-        first_time = time.time() + 10
+        first_time = time.time() + 6
+        time.sleep(0.5)
         print("turning")
         servo7.angle = 110
-        time.sleep(5)
+        time.sleep(3.8)
         servo7.angle = steer_ref
 #        time.sleep(2)
         found_pole = 1

@@ -36,7 +36,7 @@ def lidar_data():
 
             #looking for the first time we get a reading in the range of the pole
             ref_point = scan_data[90]
-            if 1200 < ref_point < 2200:
+            if 800 < ref_point < 2600:
                 pole =  1
             else:
                 pole = 0

@@ -36,8 +36,9 @@ def cam_data():
 
         img2 = img[math.floor(.7*img.shape[0]):img.shape[0],0:img.shape[1]]
 #        hsv_img = cv2.cvtColor(img,cv2.COLOR_BGR2HSV)
-        mask_img = cv2.inRange(img2, (50, 10, 10), (70, 255, 255))
- #       mask_img = cv2.inRange(img2, (20, 10, 10), (70, 255, 255))
+        mask_img = cv2.inRange(img2, (40, 10, 10), (80, 255, 255))
+#        mask_img = cv2.inRange(img2, (60, 10, 10), (90, 255, 255))
+
 
         row = 0
         for i in range(0, mask_img.shape[0]):
@@ -48,7 +49,7 @@ def cam_data():
             if whites < 150:
                 row = i
                 break
-            print(whites,i)    
+            print(whites,i)
 
         sidewalk = row
         rospy.loginfo(sidewalk)

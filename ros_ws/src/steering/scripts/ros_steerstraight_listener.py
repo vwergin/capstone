@@ -23,8 +23,8 @@ def callback(data):
     global check
     global checkpole
     global preturn
-    if checkpole==1:
-        preturn=1
+#    if checkpole==1:
+ #       preturn=1
         #print("start steer")
     if check==1 and checkpole==0: # preturn ==1 and checkpole==0:
         rospy.loginfo(data.data)
@@ -34,21 +34,21 @@ def callback(data):
         pca.frequency = 100
         channel_num = 14
         servo7 = servo.Servo(pca.channels[channel_num])
-        steer_ref = 92
+        steer_ref = 94
         servo7.angle = steer_ref
 
 #        if row < row + 100 or row > row - 100:
 #            servo7.angle = steer_ref
 #        else:
-        ref = 180
+        ref = 280
         if row==0:
             servo7.angle=steer_ref
-        elif row<ref-15:
+        elif ref-40<row<ref-12:
             print("too far")
-            servo7.angle = steer_ref +5
+            servo7.angle = steer_ref +7
             time.sleep(.5)
             servo7.angle = steer_ref
-        elif row > ref + 15:
+        elif ref+40 > row > ref + 12:
             print("too close")
             servo7.angle = steer_ref -10
             time.sleep(.5)
